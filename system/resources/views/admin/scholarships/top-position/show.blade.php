@@ -1,0 +1,530 @@
+@extends('admin.layouts.app')
+
+@push('styles')
+    <style>
+        .urdu {
+            display: none;
+        }
+    </style>
+@endpush
+
+@push('scripts')
+    <script src="{{ asset('assets/admin/plugins/moment/moment.min.js') }}"></script>
+    {{-- <script src="{{asset('assets/admin/plugins/inputmask/jquery.inputmask.min.js')}}"></script> --}}
+    <script src="{{ asset('assets/plugins/jquery-mask/jquery.mask.js') }}"></script>
+
+    <script>
+        $(function() {
+            // $('[data-mask]').inputmask();
+            $(".cnic").mask('00000-0000000-0');
+            $(".cell").mask('0000-0000000');
+        });
+    </script>
+@endpush
+
+@section('content')
+    <div class="row">
+        @can('top-position-app-status')
+            <div class="col-12">
+                @include('admin.scholarships.partials.appStatus', ['data' => $row])
+            </div>
+        @endcan
+        <div class="col-12">
+            @can('top-position-scholarship-action')
+                @include('admin.scholarships.partials.actionTab', ['data' => $row])
+            @endcan
+        </div>
+        <div class="col-12">
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">{{ $params['plural_title'] }}</h3>
+                            <div class="card-header-actions">
+                                @can('update-top-position')
+                                    <a href="{{ route('admin.scholarships.top-position.edit', ['top_position' => $row->id]) }}"
+                                        target="_blank" class="card-header-action">
+                                        <i class="fa fa-edit"></i> Edit
+                                    </a>
+                                    &nbsp;|&nbsp;
+                                @endcan
+                                <a href="https://app.cmlw.gkp.pk/scholarship/top-position/print/{{ $row->s_id }}"
+                                    target="_blank" class="card-header-action"><i class="fa fa-print"></i> Print Form</a>
+                            </div>
+                        </div>
+                        <!-- /.card-header -->
+                        <!-- form start -->
+                        <div class="card-body">
+                            <div class="col-lg-12">
+                                <h2 class="section-title">
+                                    <span class="english">Educational Information</span>
+                                </h2>
+                            </div>
+                            <div id="class-container" class="col-md-4">
+                                @include('admin.layouts.partials.form.field', [
+                                    'label' => 'Class',
+                                    'value' => $row->class,
+                                    'id' => 'class',
+                                ])
+                            </div>
+                            <div class="col-md-8">
+                                <div class="matric hide">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            @include('admin.layouts.partials.form.field', [
+                                                'label' => 'Nature of subject',
+                                                'value' => $row->subject,
+                                                'id' => 'subject',
+                                            ])
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row fsc hide">
+                                    <div class="col-lg-6">
+                                        @include('admin.layouts.partials.form.field', [
+                                            'label' => 'Nature of subject',
+                                            'value' => $row->subject,
+                                            'id' => 'subject',
+                                        ])
+                                    </div>
+                                </div>
+                                <div class="dae hide">
+                                    <div class="dae">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                @include('admin.layouts.partials.form.field', [
+                                                    'label' => 'Specialization/Discipline',
+                                                    'value' => $row->subject,
+                                                    'id' => 'discipline',
+                                                ])
+                                            </div>
+                                            <div class="col-6">
+                                                @include('admin.layouts.partials.form.field', [
+                                                    'label' => 'DAE Current Year',
+                                                    'id' => 'dae_year',
+                                                    'value' => $row->session,
+                                                ])
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bachelor hide">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            @include('admin.layouts.partials.form.field', [
+                                                'label' => 'Specialization/Discipline',
+                                                'id' => 'bachlor_discipline',
+                                                'value' => $row->session,
+                                            ])
+                                        </div>
+                                        <div class="col-6">
+                                            @include('admin.layouts.partials.form.field', [
+                                                'label' => 'current Semester',
+                                                'id' => 'semester',
+                                                'value' => $row->session,
+                                            ])
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12">
+                                @include('admin.layouts.partials.form.field', [
+                                    'label' => 'School/Institute for Special Children/College/University Name',
+                                    'value' => $row->institute,
+                                    'id' => 'institute',
+                                ])
+                            </div>
+
+                            <div class="col-lg-12">
+                                <div class="marks-container hide">
+                                    <div class="row marks">
+                                        <div class="col-lg-12">
+                                            <br>
+                                            <h5 class="section-title">
+                                                <span class="english">Please provide your <span style="color:red;"><span
+                                                            class="result-class">Previous Class/Semester</span>
+                                                        Result</span> and
+                                                    Passing
+                                                    Year</span>
+                                            </h5>
+                                        </div>
+                                        <div class="col-md-2">
+                                            @include('admin.layouts.partials.form.field', [
+                                                'label' => 'Obtained Marks/CGPA',
+                                                'value' => $row->obtained_marks,
+                                                'id' => 'obtained_marks',
+                                            ])
+                                        </div>
+                                        <div class="col-md-2">
+                                            @include('admin.layouts.partials.form.field', [
+                                                'label' => 'Total Marks/CGPA',
+                                                'value' => $row->total_marks,
+                                                'id' => 'total_marks',
+                                            ])
+                                        </div>
+                                        <div class="col-md-2">
+                                            @include('admin.layouts.partials.form.field', [
+                                                'name' => 'passing_year',
+                                                'label' => 'Passing Year',
+                                                'value' => $row->passing_year,
+                                                'id' => 'passing_year',
+                                            ])
+                                        </div>
+                                        <div class="col-md-3 roll_no_container" style="display:none;">
+                                            @include('admin.layouts.partials.form.field', [
+                                                'label' => 'Roll No',
+                                                'value' => $row->roll_no,
+                                                'id' => 'roll_no',
+                                            ])
+                                        </div>
+                                        <div class="col-md-3 top-position roll_no_container" style="display:none;">
+                                            @include('admin.layouts.partials.form.field', [
+                                                'label' => 'Board',
+                                                'value' => $row->board,
+                                                'id' => 'board',
+                                            ])
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-sm-6 col-6">
+                                            <label class="english">
+                                                Did you apply for any other Scholarship Scheme in other organization?<span
+                                                    class="required">*</span>
+                                            </label>
+                                            <label class="urdu">
+                                                <span class="required">*</span>
+                                                کیا آپ نے کسی اور اسکالرشپ اسکیم کے لئے دوسری ادارے میں درخواست دی ہے؟
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-6 col-6 urdu">
+
+                                        </div>
+                                    </div>
+
+                                    <p class="form-control">
+                                        {{ $row->other_apply == 'yes' ? 'Yes' : 'No' }}
+                                    </p>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    @include('admin.scholarships.partials.showStudent', ['student' => $row->student])
+                    @include('admin.layouts.partials.showLabour', [
+                        'title' => 'Father Detail',
+                        'labour' => $row->student->father,
+                    ])
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Previous History</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        @foreach ($row->student->history as $item)
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-6 col-md-4">
+                                        <label>Year</label>
+                                        <p>{{ $item->fy_year }}</p>
+                                    </div>
+                                    <div class="col-6 col-md-4">
+                                        <label>Class</label>
+                                        <p>{{ $item->class }}</p>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>Scheme</label>
+                                        <p>
+                                            @if ($item->category == 'General')
+                                                General
+                                            @elseif($item->category == 'Engineering')
+                                                Professional Education (Engineering)
+                                            @elseif($item->category == 'Special')
+                                                Special Education
+                                            @elseif($item->category == 'Top')
+                                                Quality Education
+                                            @elseif($item->category == 'Medical')
+                                                Professional Education (Medical)
+                                            @endif
+                                        </p>
+                                    </div>
+                                    <div class="col-12">
+                                        <hr>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
+
+@push('scripts')
+    <script src="{{ asset('assets/plugins/jquery-mask/jquery.mask.js') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            $("#cnic").mask("00000-0000000-0");
+
+            var classNames = {
+                "1": "",
+                "2": "1st Class",
+                "3": "2nd Class",
+                "4": "3rd Class",
+                "5": "4th Class",
+                "6": "5th Class",
+                "7": "6th Class",
+                "8": "7th Class",
+                "9": "8th Class",
+                "10": "9th Class",
+                "11": "Matric",
+                "12": "1st Year",
+                "13": "Previous Class",
+                "13-1": "Matric",
+                "13-2": "1st Year",
+                "13-3": "2nd Year",
+                "16": "Previous Class",
+                "16-1": "FSc/DAE/D.COM",
+                "16-2": "FSc/DAE/D.COM",
+                "16-3": "2nd Semester",
+                "16-4": "3rd Semester",
+                "16-5": "4th Semester",
+                "16-6": "5th Semester",
+                "16-7": "6th Semester",
+                "16-8": "7th Semester",
+                "18": "Previous Class",
+                "18-1": "Bachelor Degree",
+                "18-2": "1st Semester",
+                "18-3": "2nd Semester",
+                "18-4": "3rd Semester",
+            };
+
+            $(".loading-container").fadeOut(function() {
+                $("#child-form").fadeIn();
+            });
+
+            var current_class = "{{ $row->class }}";
+            var dae_year = "{{ $row->session }}";
+            var current_semester = "{{ $row->session }}";
+            var disable = $("#disabled").val();
+            var special_institute = $("#special_institute").val();
+            let boardGrads = [10, 11, 12];
+
+            if (boardGrads.includes(current_class) || (current_class == 13 && dae_year == 1) || (current_class ==
+                    16 && (current_semester == 1 || current_semester == 2))) {
+                $(".roll_no_container").fadeIn();
+            }
+
+            if (current_class == "9" || current_class == "10") {
+                if (!$(".matric").is("visiable")) {
+                    $(".fsc,.dae,.bachelor").slideUp();
+                    $(".matric").slideDown();
+                }
+
+                if (current_class == "10") {
+                    $(".roll_no_container").slideDown();
+                }
+            } else if (current_class == "11" || current_class == "12") {
+                if (!$(".fsc").is("visiable")) {
+                    $(".matric,.dae,.bachelor").slideUp();
+                    $(".fsc,.roll_no_container").slideDown();
+                }
+            } else if (current_class == "13") {
+                if (!$(".dae").is("visiable")) {
+                    $(".matric,.fsc,.bachelor").slideUp();
+                    $(".dae").slideDown();
+                }
+            } else if (current_class == "16" || current_class == "18") {
+                if (current_class == "16") {
+                    // alert(this.value);
+                    $("#semester").attr("max", 8);
+                } else if (current_class == "18") {
+                    // alert(this.value);
+                    var str = parseInt($("#semester").val());
+
+                    if (str > 4)
+                        $("#semester").val("");
+                    $("#semester").attr("max", 4);
+                }
+
+                if (!$(".bachelor").is("visiable")) {
+                    $(".matric,.dae,.fsc").slideUp();
+                    $(".bachelor").slideDown();
+                }
+            } else {
+                $(".matric,.dae,.fsc,.bachelor").slideUp();
+            }
+
+            if (current_class == null || current_class == "1") {
+                $(".marks-container").slideUp();
+            } else {
+                $(".marks-container").slideDown();
+            }
+
+            var name;
+
+            $(".dae_year,#semester").on("change", function() {
+                var temp = name + "-" + this.value;
+
+                current_class = $("#class").val();
+
+                $(".result-class").text(classNames[temp]);
+
+                if (current_class == 16 && (this.value == 1 || this.value == 2)) {
+                    $(".roll_no_container").slideDown();
+                } else if (current_class == 13 && this.value == 1) {
+                    $(".roll_no_container").slideDown();
+                } else {
+                    $(".roll_no_container").slideUp();
+                }
+
+            });
+
+            const changeClass = (name) => {
+
+                $(".result-class").text(classNames[name]);
+
+                if (boardGrads.includes(parseInt(name))) {
+                    $(".roll_no_container").slideDown();
+                } else {
+                    $(".roll_no_container").slideUp();
+                }
+
+                if (name == "9" || name == "10") {
+                    if (!$(".matric").is("visiable")) {
+                        $(".fsc,.dae,.bachelor").slideUp();
+                        $(".matric").slideDown();
+                    }
+                } else if (name == "11" || name == "12") {
+                    if (!$(".fsc").is("visiable")) {
+                        $(".matric,.dae,.bachelor").slideUp();
+                        $(".fsc").slideDown();
+                    }
+                } else if (name == "13") {
+                    if (!$(".dae").is("visiable")) {
+                        $(".matric,.fsc,.bachelor").slideUp();
+                        $(".dae").slideDown();
+                    }
+
+                    let dae_year = $(".dae_year").val();
+                    if (dae_year == 1) {
+                        $(".roll_no_container").slideDown();
+                    }
+                } else if (name == "16" || name == "18") {
+                    if (name == "16") {
+                        $("#semester").empty();
+                        $("#semester").append(
+                            $("<option></option>")
+                            .attr("value", "")
+                            .attr("selected", "true")
+                            .attr("disabled", "true")
+                            .text("Select Semester"));
+
+                        for (var i = 1; i <= 8; i++) {
+                            $("#semester").append(
+                                $("<option></option>").attr("value", i).text(i)
+                            );
+                        }
+                    } else if (name == "18") {
+                        $("#semester").empty();
+                        $("#semester").append(
+                            $("<option></option>")
+                            .attr("value", "")
+                            .attr("selected", "true")
+                            .attr("disabled", "true")
+                            .text("Select Semester"));
+                        for (var i = 1; i <= 4; i++) {
+                            $("#semester").append(
+                                $("<option></option>").attr("value", i).text(i)
+                            );
+                        }
+                    }
+
+                    if (!$(".bachelor").is("visiable")) {
+                        $(".matric,.dae,.fsc").slideUp();
+                        $(".bachelor").slideDown();
+                    }
+                } else {
+                    $(".matric,.dae,.fsc,.bachelor").slideUp();
+                }
+
+                if (name == "1") {
+                    $(".marks-container").slideUp();
+                } else {
+                    $(".marks-container").slideDown();
+                }
+            }
+
+            $("#class").on("change", function() {
+                changeClass(this.value);
+            });
+
+
+            $("#covid_container input[type=radio]").on("change", function() {
+
+                var class_instance = $("#class").val();
+
+                var dae_year_instance = $(".dae_year").val();
+
+                var current_semester_instance = $("#semester").val();
+
+            });
+
+
+            $(".cnic").mask("00000-0000000-0");
+            $("#passing_year").mask("2000");
+
+
+            @if ($row && $row->preApply)
+                var grade = "{{ $row->preApply->class }}";
+                switch (grade) {
+                    case "1st Year":
+                        grade = 11;
+                        break;
+                    case "2nd Year":
+                        grade = 12;
+                        break;
+                    case "DAE":
+                        grade = 13;
+                        break;
+                    case "Bachelor":
+                        grade = 16;
+                        break;
+                    case "Master":
+                        grade = 18;
+                        break;
+                }
+                var temp = parseInt(grade);
+                if (temp == 18)
+                    temp++;
+                $("#class").val(temp);
+                changeClass(temp);
+            @endif
+
+            $("#special_institute").on("change", function() {
+                if (this.value == "yes") {
+                    var current_class = $("#class").val();
+                    $("#class").find("option[value='1']").attr("selected", true);
+                    $("#class-container,.marks-container").slideUp();
+                } else {
+                    $("#class-container").slideDown();
+                }
+            });
+
+        });
+    </script>
+@endpush
