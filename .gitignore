@@ -18,6 +18,7 @@ system/Homestead.yaml
 system/auth.json
 system/.fleet/
 system/.idea/
+assets/
 
 # --- OS & editors ---
 .DS_Store
