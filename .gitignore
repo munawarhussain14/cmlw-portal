@@ -1,0 +1,34 @@
+# Local Apache / AMPPS routing (environment-specific rewrites)
+.htaccess
+
+# --- Laravel (`system/`) ---
+system/.env
+system/.env.*
+!system/.env.example
+system/vendor/
+system/node_modules/
+system/npm-debug.log*
+system/yarn-error.log
+system/public/hot
+system/public/storage
+system/storage/*.key
+system/.phpunit.result.cache
+system/Homestead.json
+system/Homestead.yaml
+system/auth.json
+system/.fleet/
+system/.idea/
+
+# --- OS & editors ---
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# --- Logs & temp ---
+*.log
+*.cache

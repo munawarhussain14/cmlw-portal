@@ -162,4 +162,10 @@ class Labour extends Model
     {
         return $this->hasMany(DisableLabour::class, "l_id", "l_id");
     }
+
+    public function pulmonaryAnnualReport()
+    {
+        return $this->hasMany(PulmonaryAnnualReport::class, "l_id", "l_id");
+    }
+
 }

@@ -34,7 +34,7 @@
                                 ])
                             </div>
                         
-                            <div class="col-md-6">
+                            <!-- <div class="col-md-6">
                                 @include('admin.layouts.partials.form.input', [
                                     'name' => 'test_result_value',
                                     'label' => 'Test Result Value',
@@ -43,7 +43,7 @@
                                     'type' => 'number',
                                     'required' => true,
                                 ])
-                            </div>
+                            </div> -->
                         
                             <div class="col-md-6">
                                 @include('admin.layouts.partials.form.select', [
