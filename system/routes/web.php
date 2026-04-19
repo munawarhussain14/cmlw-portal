@@ -88,6 +88,24 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
         App\Http\Controllers\Admin\LabourController::class
     );
 
+    Route::prefix('labours/{labour}')->name('labours.')->group(function () {
+        Route::get('/pulmonary-annual-reports', [App\Http\Controllers\Admin\PulmonaryAnnualReportController::class, 'index'])
+            ->name('pulmonary-annual-reports.list');
+        Route::get('/pulmonary-annual-reports/create', [App\Http\Controllers\Admin\PulmonaryAnnualReportController::class, 'create'])
+            ->name('pulmonary-annual-reports.create');
+        Route::post('/pulmonary-annual-reports', [App\Http\Controllers\Admin\PulmonaryAnnualReportController::class, 'store'])
+            ->name('pulmonary-annual-reports.store');
+    });
+
+    Route::name('labours.')->group(function () {
+        Route::get('/pulmonary-annual-reports/{pulmonary_annual_report}/edit', [App\Http\Controllers\Admin\PulmonaryAnnualReportController::class, 'edit'])
+            ->name('pulmonary-annual-reports.edit');
+        Route::put('/pulmonary-annual-reports/{pulmonary_annual_report}', [App\Http\Controllers\Admin\PulmonaryAnnualReportController::class, 'update'])
+            ->name('pulmonary-annual-reports.update');
+        Route::delete('/pulmonary-annual-reports/{pulmonary_annual_report}', [App\Http\Controllers\Admin\PulmonaryAnnualReportController::class, 'destroy'])
+            ->name('pulmonary-annual-reports.destroy');
+    });
+
     Route::get('/view-labour-history/{labour}', [App\Http\Controllers\Admin\LabourController::class, 'labourHistory'])->name('view_labour_history');
     Route::post('/export-labour', [App\Http\Controllers\Admin\LabourController::class, 'export'])->name('exportLabour');
     Route::post('/getMineralTitle', [App\Http\Controllers\Admin\LabourLeaseController::class, 'getMineralTitle'])->name('getMineralTitle');

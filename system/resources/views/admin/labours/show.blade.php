@@ -124,6 +124,22 @@
         </div>
         @endcan
 
+        @canany(['read-labours', 'pulmonary-test-report'])
+        <div class="col-12">
+            <div class="card card-outline card-info">
+                <div class="card-header">
+                    <h3 class="card-title">Pulmonary annual test reports</h3>
+                    <div class="card-tools">
+                        <a href="{{ route('admin.labours.pulmonary-annual-reports.list', ['labour' => $row->l_id]) }}"
+                            class="btn btn-sm btn-info">
+                            <i class="fa fa-list"></i> View / manage reports
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endcanany
+
         <div class="col-12">
             @include('admin.layouts.partials.labour_lease')
         </div>
@@ -144,6 +160,13 @@
                             </a>
                             &nbsp;|&nbsp;
                         @endcan
+                        @canany(['read-labours', 'pulmonary-test-report'])
+                            <a href="{{ route('admin.labours.pulmonary-annual-reports.list', ['labour' => $row->l_id]) }}"
+                                class="card-header-action">
+                                <i class="fa fa-notes-medical"></i> Pulmonary annual reports
+                            </a>
+                            &nbsp;|&nbsp;
+                        @endcanany
                         <a href="https://app.cmlw.gkp.pk/labour/print/{{ $row->l_id }}" target="_blank"
                             class="card-header-action"><i class="fa fa-print"></i> Print Form</a>
                     </div>
