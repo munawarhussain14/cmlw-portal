@@ -38,4 +38,22 @@ class FyYear extends Model
     {
         return $this->attributes['year'];
     }
+
+    /**
+     * Options for HTML selects: value/text = stored year string from each row.
+     */
+    public static function optionsForSelect(): array
+    {
+        return static::withoutGlobalScopes()
+            ->orderBy('year')
+            ->get()
+            ->map(function (self $f) {
+                $y = (string) $f->getActualYear();
+
+                return ['value' => $y, 'text' => $y];
+            })
+            ->unique('value')
+            ->values()
+            ->all();
+    }
 }

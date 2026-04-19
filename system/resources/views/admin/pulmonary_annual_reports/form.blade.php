@@ -40,13 +40,13 @@
                                 ])
                             </div>
                             <div class="col-md-6">
-                                @include('admin.layouts.partials.form.input', [
+                                @include('admin.layouts.partials.form.select', [
                                     'name' => 'fy_year',
                                     'label' => 'Financial year',
-                                    'value' => old('fy_year', $row->fy_year ?? $defaultFyYear ?? ''),
+                                    'value' => old('fy_year', $row->fy_year ?? $fyYearDefault ?? ''),
                                     'id' => 'fy_year',
-                                    'type' => 'text',
                                     'required' => true,
+                                    'options' => $fyYearOptions,
                                 ])
                             </div>
                             <div class="col-md-6">

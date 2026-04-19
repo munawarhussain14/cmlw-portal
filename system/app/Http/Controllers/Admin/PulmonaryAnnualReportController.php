@@ -50,10 +50,11 @@ class PulmonaryAnnualReportController extends AdminController
 
         $title = 'Add pulmonary annual report — ' . $labour->name;
         $row = new PulmonaryAnnualReport();
-        $fy = FyYear::first();
-        $defaultFyYear = $fy ? $fy->year : (string) date('Y');
+        $fyYearOptions = FyYear::optionsForSelect();
+        $active = optional(FyYear::first())->getActualYear();
+        $fyYearDefault = $active !== null ? (string) $active : '';
 
-        return view('admin.pulmonary_annual_reports.form', compact('labour', 'row', 'title', 'defaultFyYear'));
+        return view('admin.pulmonary_annual_reports.form', compact('labour', 'row', 'title', 'fyYearOptions', 'fyYearDefault'));
     }
 
     public function store(PulmonaryAnnualReportRequest $request, Labour $labour)
@@ -84,9 +85,10 @@ class PulmonaryAnnualReportController extends AdminController
         $labour = $this->resolveLabourForReport($pulmonary_annual_report);
         $row = $pulmonary_annual_report;
         $title = 'Edit pulmonary annual report — ' . $labour->name;
-        $defaultFyYear = $row->fy_year;
+        $fyYearOptions = FyYear::optionsForSelect();
+        $fyYearDefault = '';
 
-        return view('admin.pulmonary_annual_reports.form', compact('labour', 'row', 'title', 'defaultFyYear'));
+        return view('admin.pulmonary_annual_reports.form', compact('labour', 'row', 'title', 'fyYearOptions', 'fyYearDefault'));
     }
 
     public function update(PulmonaryAnnualReportRequest $request, PulmonaryAnnualReport $pulmonary_annual_report)
