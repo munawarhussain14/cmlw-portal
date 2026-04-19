@@ -24,12 +24,12 @@ jobs:
         with:
           server: ${{ secrets.SFTP_HOST }}
           username: ${{ secrets.SFTP_USERNAME }}
+          port: ${{ secrets.SFTP_PORT }}
           remote_path: ${{ secrets.SFTP_REMOTE_PATH }}
           local_path: ./
           sftp_only: true
           password: ${{ secrets.SFTP_PASSWORD }}
-          ssh_private_key: ${{ secrets.SFTP_SSH_PRIVATE_KEY }}
-          ssh_passphrase: ${{ secrets.SFTP_SSH_KEY_PASSPHRASE }}
+          ssh_private_key: ""
           sftpArgs: "-o StrictHostKeyChecking=no -o ConnectTimeout=30"
           rsyncArgs: >-
             --exclude=.git
@@ -56,12 +56,12 @@ jobs:
         with:
           server: ${{ secrets.SFTP_HOST }}
           username: ${{ secrets.SFTP_USERNAME }}
+          port: ${{ secrets.SFTP_PORT }}
           remote_path: ${{ secrets.SFTP_REMOTE_PATH_DEV }}
           local_path: ./
           sftp_only: true
           password: ${{ secrets.SFTP_PASSWORD }}
-          ssh_private_key: ${{ secrets.SFTP_SSH_PRIVATE_KEY }}
-          ssh_passphrase: ${{ secrets.SFTP_SSH_KEY_PASSPHRASE }}
+          ssh_private_key: ""
           sftpArgs: "-o StrictHostKeyChecking=no -o ConnectTimeout=30"
           rsyncArgs: >-
             --exclude=.git
