@@ -124,22 +124,6 @@
         </div>
         @endcan
 
-        @canany(['read-labours', 'pulmonary-test-report'])
-        <div class="col-12">
-            <div class="card card-outline card-info">
-                <div class="card-header">
-                    <h3 class="card-title">Pulmonary annual test reports</h3>
-                    <div class="card-tools">
-                        <a href="{{ route('admin.labours.pulmonary-annual-reports.list', ['labour' => $row->l_id]) }}"
-                            class="btn btn-sm btn-info">
-                            <i class="fa fa-list"></i> View / manage reports
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        @endcanany
-
         <div class="col-12">
             @include('admin.layouts.partials.labour_lease')
         </div>
@@ -195,6 +179,26 @@
                                 </p>
                             </div>
                         </div>
+
+                        @canany(['read-labours', 'pulmonary-test-report'])
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-sm-6 col-6">
+                                        <label class="english">
+                                            Pulmonary annual test reports
+                                        </label>
+                                    </div>
+                                </div>
+                                <p class="form-control mb-0">
+                                    <a href="{{ route('admin.labours.pulmonary-annual-reports.list', ['labour' => $row->l_id]) }}"
+                                        class="action-btn btn btn-info btn-sm">
+                                        <i class="fa fa-list"></i> View / manage reports
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                        @endcanany
 
                         @if ($row->doa)
                             <div class="col-sm-6 id="doa_date">

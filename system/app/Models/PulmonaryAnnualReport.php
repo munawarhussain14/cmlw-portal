@@ -12,7 +12,7 @@ class PulmonaryAnnualReport extends Model
     /**
      * Table name must match your database (e.g. pulmonary_anual_test_report if you used that spelling).
      */
-    protected $table = 'pulmonary_annual_test_report';
+    protected $table = 'pulmonary_annual_test_reports';
 
     protected $primaryKey = 'id';
 

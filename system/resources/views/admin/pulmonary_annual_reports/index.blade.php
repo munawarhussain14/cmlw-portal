@@ -16,13 +16,13 @@
                         <a href="{{ route('admin.labours.show', ['labour' => $labour->l_id]) }}" class="card-header-action">
                             <i class="fa fa-arrow-left"></i> Back to labour
                         </a>
-                        @canany(['update-labours', 'pulmonary-test-report'])
+                        @can('pulmonary-test-report-add')
                             &nbsp;|&nbsp;
                             <a href="{{ route('admin.labours.pulmonary-annual-reports.create', ['labour' => $labour->l_id]) }}"
                                 class="card-header-action">
-                                <i class="fa fa-plus"></i> Add report
+                                <i class="fa fa-plus"></i> Create report
                             </a>
-                        @endcanany
+                        @endcan
                     </div>
                 </div>
                 <div class="card-body p-0">
@@ -30,14 +30,14 @@
                         <p class="p-3 mb-0 text-muted">No reports recorded yet.</p>
                     @else
                         <div class="table-responsive">
-                            <table class="table table-striped mb-0">
+                            <table class="table table-bordered table-hover mb-0">
                                 <thead>
                                     <tr>
                                         <th>Test date</th>
                                         <th>FY year</th>
                                         <th>Severity</th>
                                         <th>Remarks</th>
-                                        <th class="text-right" style="width: 160px;">Actions</th>
+                                        <th width="18%">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -47,22 +47,26 @@
                                             <td>{{ $report->fy_year }}</td>
                                             <td>{{ $report->severity_level }}</td>
                                             <td>{{ \Illuminate\Support\Str::limit($report->remarks, 80) }}</td>
-                                            <td class="text-right">
+                                            <td>
                                                 @canany(['update-labours', 'pulmonary-test-report'])
+                                                    @can('pulmonary-test-report-edit')
                                                     <a href="{{ route('admin.labours.pulmonary-annual-reports.edit', ['pulmonary_annual_report' => $report->id]) }}"
-                                                        class="btn btn-sm btn-primary">
+                                                        class="action-btn btn btn-primary btn-sm">
                                                         <i class="fas fa-pencil-alt"></i> Edit
-                                                    </a>
+                                                    </a>&nbsp;
+                                                    @endcan
+                                                    @can('pulmonary-test-report-delete')
                                                     <form class="d-inline"
                                                         action="{{ route('admin.labours.pulmonary-annual-reports.destroy', ['pulmonary_annual_report' => $report->id]) }}"
                                                         method="post"
                                                         onsubmit="return confirm('Delete this report?');">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="btn btn-sm btn-danger">
+                                                        <button type="submit" class="action-btn delete btn btn-danger btn-sm">
                                                             <i class="fa fa-trash"></i> Delete
                                                         </button>
                                                     </form>
+                                                    @endcan
                                                 @endcanany
                                             </td>
                                         </tr>
