@@ -154,6 +154,7 @@ class GeneralScholarshipController extends AdminController
                         "districts.d_id"
                     );
                 })
+                ->leftJoin("banks", "labours.bank_id", "=", "banks.b_id")
                 ->select(
                     "scholarship_apply.s_id as s_id",
                     "scholarship_apply.id as id",
@@ -168,6 +169,7 @@ class GeneralScholarshipController extends AdminController
                     "scholarship_apply.category as category",
                     "scholarship_apply.form_received as form_received",
                     "districts.name as district",
+                    "banks.name as bank_name"
                 )
                 ->when($status, function ($query, $status) {
                     return $query->where("status", $status);

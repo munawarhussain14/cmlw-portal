@@ -52,6 +52,10 @@ class DeceasedLaboursExport implements FromCollection, WithHeadings
                 $head = "Fy Year";
             } elseif ($column == "status") {
                 $head = "Status";
+            } elseif ($column == "labours.iban") {
+                $head = "IBAN";
+            } elseif ($column == "banks.name as bank_name") {
+                $head = "Bank";
             } else {
                 $head = $column;
             }
@@ -79,6 +83,7 @@ class DeceasedLaboursExport implements FromCollection, WithHeadings
         if (count($this->columns) > 0) {
             $data = DeceasedLabour::leftJoin("labours", "labours.l_id", "=", "death_grants.labour_id")
                 ->leftJoin("districts", "labours.lease_district_id", "=", "districts.d_id")
+                ->leftJoin("banks", "labours.bank_id", "=", "banks.b_id")
                 ->leftJoin("labour_wife", "labours.l_id", "=", "labour_wife.husband_id")
                 ->selectRaw(join(",", $this->columns))
                 ->when($status, function ($query, $status) {

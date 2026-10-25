@@ -8,6 +8,7 @@ use App\Models\District;
 use App\Models\Bank;
 use App\Models\Minerals;
 use App\Models\WorkType;
+use App\Models\PulmonaryAnnualReport;
 use App\Http\Requests\LabourRequest;
 use DB;
 use App\Helper\DatatableHelper;
@@ -171,6 +172,7 @@ class LabourController extends AdminController
             $districts = null;
             $card_printed = null;
             $card_issued = null;
+            $annualReport = null;
             if ($request->has("status")) {
                 $status = $request->status;
             }
@@ -194,6 +196,11 @@ class LabourController extends AdminController
             }else{
                 $card_issued = false;
             }
+            
+            if ($status=="pulmonaryReport") {
+                $annualReport = $status;
+                $status = null;
+            }
 
             if ($request->has("districts")) {
                 $districts = $request->districts;
@@ -208,6 +215,16 @@ class LabourController extends AdminController
                 })
                 ->when($card_issued, function ($query, $card_issued) {
                     return $query->where("card_printed", $card_issued=="card_issued");
+                })
+                ->when($annualReport, function ($query, $annualReport) {
+                    return $query->whereExists(function ($q) {
+                        $q->select(DB::raw(1))
+                            ->from('pulmonary_annual_test_reports')
+                            ->whereColumn(
+                                'pulmonary_annual_test_reports.l_id',
+                                'labours.l_id'
+                            );
+                        });
                 })
                 ->when($districts, function ($query, $districts) {
                     return $query->whereIn("lease_district_id", explode(",", $districts));
@@ -248,7 +265,8 @@ class LabourController extends AdminController
         $data["card_printed"] = $this->all(["l_id", "name", "father_name", "cnic", "labour_status"])->where("card_printed", true)->count();
 
         $data["card_not_printed"] = $this->all(["l_id", "name", "father_name", "cnic", "labour_status"])->where("card_printed", false)->count();
-
+        
+        $data['pulmonary_annual_reports'] = (int) PulmonaryAnnualReport::query()->count(DB::raw('DISTINCT l_id'));
 
         return $data;
     }

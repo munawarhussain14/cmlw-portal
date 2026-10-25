@@ -33,7 +33,9 @@
                             ['label' => 'Category', 'value' => 'pulmonary_labour.category'],
                             ['label' => 'Addmitted From', 'value' => 'pulmonary_labour.from_date'],
                             ['label' => 'Addmitted To', 'value' => 'pulmonary_labour.to_date'],
+                            ['label' => 'IBAN', 'value' => 'labours.iban'],
                             ['label' => 'Fy Year', 'value' => 'pulmonary_labour.fy_year'],
+                            ['label' => 'Bank', 'value' => 'banks.name as bank_name'],
                             // ['label' => 'Lease District', 'value' => 'districts.name as lease_district']
                         ],
                     ])

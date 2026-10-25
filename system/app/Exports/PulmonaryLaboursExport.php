@@ -54,6 +54,10 @@ class PulmonaryLaboursExport implements FromCollection, WithHeadings
                 $head = "Cetegory";
             } elseif ($column == "labours.mineral_title") {
                 $head = "Mineral Title";
+            } elseif ($column == "labours.iban") {
+                $head = "IBAN";
+            } elseif ($column == "banks.name as bank_name") {
+                $head = "Bank";
             } elseif ($column == "pulmonary_labour.fy_year") {
                 $head = "Fy Year";
             } else {
@@ -83,6 +87,7 @@ class PulmonaryLaboursExport implements FromCollection, WithHeadings
         if (count($this->columns) > 0) {
             $data = PulmonaryLabour::leftJoin("labours", "labours.l_id", "=", "pulmonary_labour.l_id")
                 ->leftJoin("districts", "labours.lease_district_id", "=", "districts.d_id")
+                ->leftJoin("banks", "labours.bank_id", "=", "banks.b_id")
                 ->selectRaw(join(",", $this->columns))
                 ->when($status, function ($query, $status) {
                     return $query->where("status", $status);

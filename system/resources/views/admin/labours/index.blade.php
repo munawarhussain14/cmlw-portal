@@ -13,6 +13,7 @@
                         'card_not_issued' => $summary['card_not_issued'],
                         'card_printed' => $summary['card_printed'],
                         'card_not_printed' => $summary['card_not_printed'],
+                        'pulmonary_annual_reports' => $summary['pulmonary_annual_reports']
                     ])
                 </div>
                 <div class="col-12">
@@ -20,7 +21,7 @@
                         'url' => route('admin.exportLabour'),
                         'columns' => [
                             ['label' => 'ID', 'value' => 'l_id', 'checked' => true],
-                            ['label' => 'Name', 'value' => 'name', 'checked' => true],
+                            ['label' => 'Name', 'value' => 'labours.name', 'checked' => true],
                             ['label' => 'Father Name', 'value' => 'father_name', 'checked' => true],
                             ['label' => 'CNIC', 'value' => 'cnic', 'checked' => true],
                             ['label' => 'Gender', 'value' => 'gender', 'checked' => true],
@@ -32,7 +33,7 @@
                             ['label' => 'Mineral Title', 'value' => 'mineral_title'],
                             ['label' => 'Lease District', 'value' => 'lease_district_id'],
                             ['label' => 'Card Printed', 'value' => 'card_printed'],
-                            ['label' => 'Card Digitized', 'value' => 'issued'],                            
+                            ['label' => 'Card Digitized', 'value' => 'issued']
                         ],
                     ])
                 </div>

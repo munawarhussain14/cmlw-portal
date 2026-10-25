@@ -27,6 +27,8 @@
                             ['label' => 'Class', 'value' => 'scholarship_apply.class'],
                             ['label' => 'Lease District', 'value' => 'districts.name as lease_district'],
                             ['label' => 'Status', 'value' => 'scholarship_apply.status'],
+                            ['label' => 'IBAN', 'value' => 'labours.iban'],
+                            ['label' => 'Bank', 'value' => 'banks.name as bank_name'],
                         ],
                     ])
                 </div>

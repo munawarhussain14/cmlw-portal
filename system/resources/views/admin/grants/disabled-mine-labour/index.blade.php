@@ -59,7 +59,9 @@
                             ['label' => 'Disability', 'value' => 'disabled_labour.disability'],
                             ['label' => 'Disability Percentage', 'value' => 'disabled_labour.disability_percent'],
                             ['label' => 'Disability Type', 'value' => 'disabled_labour.disability_type'],
+                            ['label' => 'IBAN', 'value' => 'labours.iban'],
                             ['label' => 'Fy Year', 'value' => 'disabled_labour.fy_year'],
+                            ['label' => 'Bank', 'value' => 'banks.name as bank_name'],
                             // ['label' => 'Lease District', 'value' => 'districts.name as lease_district']
                         ],
                     ])

@@ -12,9 +12,11 @@ use App\Models\Scholarship;
 use App\Models\Diploma;
 use App\Models\DisableLabour;
 use App\Models\PulmonaryLabour;
+use App\Models\PulmonaryAnnualReport;
 use App\Models\MarriageGrant;
 use App\Models\Compilation;
 use App\Models\District;
+use Illuminate\Support\Facades\DB;
 use Auth;
 use Carbon\Carbon;
 
@@ -86,6 +88,9 @@ class DashboardController extends Controller
         $data["disabled"]["total"] = 0;//DisableLabour::where("fy_year", $fy->year)->leftJoin("labours", "labours.l_id", "=", "disabled_labour.l_id")->count();
 
         $data["pulmonary"]["total"] = 0;//PulmonaryLabour::where("fy_year", $fy->year)->leftJoin("labours", "labours.l_id", "=", "pulmonary_labour.l_id")->count();
+
+        $data['pulmonary_annual_reports']['total'] = (int) PulmonaryAnnualReport::query()
+            ->count(DB::raw('DISTINCT l_id'));
 
         $data["deceased"]["total"] = 0;//DeceasedLabour::where("fy_year", $fy->year)->leftJoin("labours", "labours.l_id", "=", "death_grants.labour_id")->count();
 

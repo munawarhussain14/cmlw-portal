@@ -39,6 +39,8 @@
                             ['label' => 'Mineral Title', 'value' => 'labours.mineral_title'],
                             ['label' => 'Domicile District', 'value' => 'labours.domicile_district'],
                             ['label' => 'Fy Year', 'value' => 'death_grants.fy_year'],
+                            ['label' => 'IBAN', 'value' => 'labours.iban'],
+                            ['label' => 'Bank', 'value' => 'banks.name as bank_name'],
                             // ['label' => 'Lease District', 'value' => 'districts.name as lease_district']
                         ],
                     ])

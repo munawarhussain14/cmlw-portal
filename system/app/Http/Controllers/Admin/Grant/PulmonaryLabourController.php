@@ -98,6 +98,7 @@ class PulmonaryLabourController extends AdminController
 
             $status = null;
             $districts = null;
+            $pulmonary_test = null;
             if ($request->has("status")) {
                 $status = $request->status;
             }
@@ -106,8 +107,10 @@ class PulmonaryLabourController extends AdminController
                 $districts = $request->districts;
             }
 
+            
 
             $data = PulmonaryLabour::leftJoin("labours", "labours.l_id", "=", "pulmonary_labour.l_id")
+                ->leftJoin("pulmonary_annual_test_reports", "labours.l_id", "=", "pulmonary_annual_test_reports.l_id")
                 ->leftJoin("districts", "labours.lease_district_id", "=", "districts.d_id")
                 ->select(
                     "pulmonary_labour.id as id",
@@ -116,7 +119,7 @@ class PulmonaryLabourController extends AdminController
                     "labours.father_name as father_name",
                     "labours.cnic",
                     "pulmonary_labour.status as status",
-                    "districts.name as district",
+                    "districts.name as district"
                 )
                 ->when($status, function ($query, $status) {
                     if ($status == "none") {
@@ -125,10 +128,24 @@ class PulmonaryLabourController extends AdminController
                         return $query->where("pulmonary_labour.status", $status);
                     }
                 })
+                ->when(
+                    $status === "pulmonaryReport",
+                    function ($query) {
+                        return $query->whereExists(function ($subQuery) {
+                            $subQuery->select(DB::raw(1))
+                                ->from("pulmonary_annual_test_reports")
+                                ->whereColumn(
+                                    "pulmonary_annual_test_reports.l_id",
+                                    "pulmonary_labour.l_id"
+                                );
+                        });
+                    }
+                )
                 ->when($districts, function ($query, $districts) {
                     return $query->whereIn("labours.lease_district_id", explode(",", $districts));
                 })
                 ->where("pulmonary_labour.fy_year", $fy->year);
+                
 
             $table = new DatatableHelper($data, $this->params, "id");
             return $table->custom_response(["action", "status"])

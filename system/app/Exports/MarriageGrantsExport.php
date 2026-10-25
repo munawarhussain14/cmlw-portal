@@ -51,6 +51,10 @@ class MarriageGrantsExport implements FromCollection, WithHeadings
                 $head = "Husband CNIC";
             } elseif ($column == "marriage_grant.marriage_held_on") {
                 $head = "Marraige Held In";
+            } elseif ($column == "labours.iban") {
+                $head = "IBAN";
+            } elseif ($column == "banks.name as bank_name") {
+                $head = "Bank";
             } elseif ($column == "marriage_grant.fy_year") {
                 $head = "Fy Year";
             } else {
@@ -81,6 +85,7 @@ class MarriageGrantsExport implements FromCollection, WithHeadings
             $data = MarriageGrant::leftJoin("labours", "labours.l_id", "=", "marriage_grant.l_id")
                 ->leftJoin("children", "marriage_grant.c_id", "=", "children.id")
                 ->leftJoin("districts", "labours.lease_district_id", "=", "districts.d_id")
+                ->leftJoin("banks", "labours.bank_id", "=", "banks.b_id")
                 ->selectRaw(join(",", $this->columns))
                 ->when($status, function ($query, $status) {
                     return $query->where("status", $status);

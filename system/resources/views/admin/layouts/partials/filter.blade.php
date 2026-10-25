@@ -26,6 +26,7 @@
                         <option value="card_not_issued">Card Not Issued</option>
                         <option value="card_printed">Card Printed</option>
                         <option value="card_not_printed">Card Not Printed</option>
+                        <option value="pulmonaryReport">Pulmonary Test Completed</option>
                     </select>
                 </div>
             </div>

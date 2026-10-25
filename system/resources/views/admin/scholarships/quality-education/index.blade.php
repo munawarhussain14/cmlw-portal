@@ -24,6 +24,8 @@
                             ['label' => 'Father CNIC', 'value' => 'labours.cnic', 'checked' => true],
                             ['label' => 'Class', 'value' => 'scholarship_apply.class'],
                             ['label' => 'Lease District', 'value' => 'districts.name as lease_district'],
+                            ['label' => 'IBAN', 'value' => 'labours.iban'],
+                            ['label' => 'Bank', 'value' => 'banks.name as bank_name'],                            
                         ],
                     ])
                 </div>
