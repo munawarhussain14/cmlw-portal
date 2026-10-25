@@ -136,12 +136,17 @@ class GeneralScholarshipController extends AdminController
 
             $status = null;
             $districts = null;
+            $purpose = null;
             if ($request->has("status")) {
                 $status = $request->status;
             }
 
             if ($request->has("districts")) {
                 $districts = $request->districts;
+            }
+
+            if ($request->has("purpose")) {
+                $purpose = $request->purpose;
             }
 
             $data = Scholarship::leftJoin("children", "scholarship_apply.s_id", "=", "children.id")
@@ -154,6 +159,7 @@ class GeneralScholarshipController extends AdminController
                         "districts.d_id"
                     );
                 })
+                ->leftJoin("banks", "labours.bank_id", "=", "banks.b_id")
                 ->select(
                     "scholarship_apply.s_id as s_id",
                     "scholarship_apply.id as id",
@@ -168,6 +174,7 @@ class GeneralScholarshipController extends AdminController
                     "scholarship_apply.category as category",
                     "scholarship_apply.form_received as form_received",
                     "districts.name as district",
+                    "banks.name as bank_name"
                 )
                 ->when($status, function ($query, $status) {
                     return $query->where("status", $status);
@@ -178,6 +185,9 @@ class GeneralScholarshipController extends AdminController
                         \DB::raw("CASE WHEN labours.purpose = 'labour' THEN labours.lease_district_id ELSE labours.domicile_district END"),
                         explode(",", $districts)
                     );
+                })
+                ->when($purpose, function ($query, $purpose) {
+                    return $query->where("labours.purpose", $purpose);
                 })
                 ->where("category", "General")
                 ->where("scholarship_apply.fy_year", $fy->year);

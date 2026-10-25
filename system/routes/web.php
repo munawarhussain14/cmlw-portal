@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Storage;
 if (App::environment('production')) {
     URL::forceScheme('https');
 }
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -146,10 +148,10 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
 
         Route::post(
             'action/{id}',
-            // function(){
-            //     return redirect()->back()->with("warning","Not Allowed!");
-            // }
-            [App\Http\Controllers\Admin\Scholarship\GeneralScholarshipController::class, "updateAction"]
+            function(){
+                return redirect()->back()->with("warning","Not Allowed!");
+            }
+            // [App\Http\Controllers\Admin\Scholarship\GeneralScholarshipController::class, "updateAction"]
         )->name("action");
 
         Route::resource(

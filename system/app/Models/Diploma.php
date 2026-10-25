@@ -23,4 +23,9 @@ class Diploma extends Model
     {
         return $this->hasOne(Children::class,"id","child_id");
     }
+
+    public function doc_verfied()
+    {
+        return $this->hasOne(User::class,"id","doc_verify_by");
+    }
 }

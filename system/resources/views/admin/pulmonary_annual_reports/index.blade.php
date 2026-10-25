@@ -48,7 +48,6 @@
                                             <td>{{ $report->severity_level }}</td>
                                             <td>{{ \Illuminate\Support\Str::limit($report->remarks, 80) }}</td>
                                             <td>
-                                                @canany(['update-labours', 'pulmonary-test-report'])
                                                     @can('pulmonary-test-report-edit')
                                                     <a href="{{ route('admin.labours.pulmonary-annual-reports.edit', ['pulmonary_annual_report' => $report->id]) }}"
                                                         class="action-btn btn btn-primary btn-sm">
@@ -67,7 +66,6 @@
                                                         </button>
                                                     </form>
                                                     @endcan
-                                                @endcanany
                                             </td>
                                         </tr>
                                     @endforeach

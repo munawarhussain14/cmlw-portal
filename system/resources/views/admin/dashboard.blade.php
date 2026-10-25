@@ -134,6 +134,21 @@
                 </div>
             </div>
         @endcan
+        @canany(['read-labours', 'pulmonary-test-report'])
+            <div class="col-md-4">
+                <div class="small-box bg-warning">
+                    <div class="inner">
+                        <h3>{{ $data['pulmonary_annual_reports']['total'] }}</h3>
+                        <p>Labours with at least one pulmonary annual test</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-notes-medical"></i>
+                    </div>
+                    <a href="{{ route('admin.labours.index') }}" class="small-box-footer">View labours <i
+                            class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+        @endcanany
         @can('read-deceased-mine-labour')
             <div class="col-md-4">
                 <!-- small box -->

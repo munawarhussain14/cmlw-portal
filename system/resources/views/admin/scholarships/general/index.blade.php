@@ -13,6 +13,7 @@
                 </div>
                 <div class="col-12">
                     @include('admin.layouts.partials.filter', [
+                        'purposeFilter' => true,
                         'url' => route('admin.scholarships.export', ['scheme' => 'General']),
                         'columns' => [
                             ['label' => 'ID', 'value' => 'children.id', 'checked' => true],
@@ -27,6 +28,8 @@
                             ['label' => 'Class', 'value' => 'scholarship_apply.class'],
                             ['label' => 'Lease District', 'value' => 'districts.name as lease_district'],
                             ['label' => 'Status', 'value' => 'scholarship_apply.status'],
+                            ['label' => 'IBAN', 'value' => 'labours.iban'],
+                            ['label' => 'Bank', 'value' => 'banks.name as bank_name'],
                         ],
                     ])
                 </div>

@@ -1,0 +1,296 @@
+<?php
+
+namespace App\Http\Controllers\Admin\Scholarship;
+
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\Admin\AdminController;
+use Illuminate\Http\Request;
+use App\Models\Scholarship;
+use App\Models\Children;
+use App\Models\FyYear;
+use App\Http\Requests\SpecialEducationScholarshipRequest;
+use DB;
+use App\Helper\DatatableHelper;
+use Auth;
+use App\Traits\ActionTrait;
+
+class SpecialEducationScholarshipController extends AdminController
+{
+    use ActionTrait;
+
+    private $params = [
+        "basic" => "admin/scholarships/special-education",
+        "dir" => "admin.scholarships.special-education",
+        "route" => "admin.scholarships.special-education",
+        "model" => "special_education",
+        "singular_title" => "Special Education",
+        "plural_title" => "Special Education",
+        "module_name" => "special-education",
+        "upload_dir" => "special-education",
+        "columns" => [
+            ["data" => 's_id', "name" => 'scholarship_apply.s_id', "title" => "ID"],
+            ["data" => 'name', "name" => 'children.name', "title" => "Name"],
+            ["data" => 'father_name', "name" => 'labours.name', "title" => "Father Name"],
+            ["data" => 'cnic', "name" => 'labours.cnic', "title" => "CNIC"],
+            ["data" => 'status', "name" => 'scholarship_apply.status', "orderable" => "false", "searchable" => "false", "title" => "Status"],
+            ["data" => 'action', "name" => 'action', "orderable" => "false", "searchable" => "false", "title" => "Action"],
+        ]
+    ];
+
+    public function __construct()
+    {
+        parent::__construct($this->params["module_name"]);
+    }
+
+    function find($id = 0)
+    {
+        if ($id) {
+            return Scholarship::withoutGlobalScopes()->find($id);
+        } else {
+            return new Scholarship;
+        }
+    }
+
+    function all($columns = "*")
+    {
+        return Scholarship::withoutGlobalScopes()->select($columns);
+    }
+
+    function getDate($date)
+    {
+        $temp = explode("/", $date);
+        return date_create("$temp[1]/$temp[0]/$temp[2]");
+    }
+
+    function onHandleOperation($request, $id = 0)
+    {
+        $user_id = Auth::getUser()->id;
+        $table = $this->find($id);
+
+        $student = Children::find($table->s_id);
+        // $student->name = $request->name;
+        // $student->dob = "$request->dob_year-$request->dob_month-$request->dob_day";
+        // $student->gender = $request->gender;
+        $student->disability_factor = $request->disability_factor;
+        $student->disabled = "yes";
+        $student->save();
+
+        $table->class = 0;
+        $table->institute = $request->institute;
+
+        $table->category = "Special";
+
+        $table->save();
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
+    {
+        if ($request->ajax()) {
+            $fy = FyYear::first();
+
+            $status = null;
+            $districts = null;
+            if ($request->has("status")) {
+                $status = $request->status;
+            }
+
+            if ($request->has("districts")) {
+                $districts = $request->districts;
+            }
+
+            $data = Scholarship::leftJoin("children", "scholarship_apply.s_id", "=", "children.id")
+                ->leftJoin("labours", "labours.l_id", "=", "children.father_id")
+                ->leftJoin("districts", "labours.lease_district_id", "=", "districts.d_id")
+                ->select(
+                    "scholarship_apply.s_id as s_id",
+                    "scholarship_apply.id as id",
+                    "scholarship_apply.serial as serial",
+                    "children.name as name",
+                    "children.disability_factor as disability_factor",
+                    "labours.name as father_name",
+                    "labours.cnic",
+                    "scholarship_apply.class as class",
+                    "labours.cnic",
+                    "scholarship_apply.status as status",
+                    "scholarship_apply.category as category",
+                    "scholarship_apply.form_received as form_received",
+                    "districts.name as district",
+                )
+                ->where("category", "special")
+                ->when($status, function ($query, $status) {
+                    return $query->where("status", $status);
+                })
+                ->when($districts, function ($query, $districts) {
+                    return $query->whereIn("labours.lease_district_id", explode(",", $districts));
+                })
+                ->where("scholarship_apply.fy_year", $fy->year);
+            // ->whereRaw('scholarship_apply.category in (?)', $temp)
+            // ->whereIn("labours.lease_district_id",$d_ids)
+            // ->whereRaw($condition);
+
+            $table = new DatatableHelper($data, $this->params, "id");
+            return $table->custom_response(["action", "status"])
+                ->addColumn('status', function (Scholarship $model) {
+                    return $this->status($model->status);
+                })->make(true);
+        }
+
+        $params = $this->params;
+        $summary = $this->getSummary();
+        return view($this->params['dir'] . ".index", compact("params", "summary"));
+    }
+
+    function getSummary()
+    {
+        $fy = FyYear::first();
+        $data["total"] = Scholarship::leftJoin("children", "scholarship_apply.s_id", "=", "children.id")
+            ->leftJoin("labours", "labours.l_id", "=", "children.father_id")
+            ->leftJoin("districts", "labours.lease_district_id", "=", "districts.d_id")
+            ->select("scholarship_apply.s_id as s_id")
+            ->where("category", "special")
+            ->where("scholarship_apply.fy_year", $fy->year)->count();
+
+        $data["approved"] = Scholarship::leftJoin("children", "scholarship_apply.s_id", "=", "children.id")
+            ->leftJoin("labours", "labours.l_id", "=", "children.father_id")
+            ->leftJoin("districts", "labours.lease_district_id", "=", "districts.d_id")
+            ->select("scholarship_apply.s_id as s_id")
+            ->where("category", "special")
+            ->where("status", "approved")
+            ->where("scholarship_apply.fy_year", $fy->year)->count();
+
+        $data["rejected"] = Scholarship::leftJoin("children", "scholarship_apply.s_id", "=", "children.id")
+            ->leftJoin("labours", "labours.l_id", "=", "children.father_id")
+            ->leftJoin("districts", "labours.lease_district_id", "=", "districts.d_id")
+            ->select("scholarship_apply.s_id as s_id")
+            ->where("category", "special")
+            ->where("status", "rejected")
+            ->where("scholarship_apply.fy_year", $fy->year)->count();
+
+        return $data;
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create(Request $request)
+    {
+        $params = $this->params;
+        $districts = District::all();
+        $minerals = Minerals::all();
+        $worktypes = WorkType::all();
+        $title = "New " . $params["singular_title"];
+        return view($this->params['dir'] . ".create", compact("title", "params", "districts", "minerals", "worktypes"));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(SpecialEducationScholarshipRequest $request)
+    {
+        $data = [];
+        $this->onHandleOperation($request);
+
+        return redirect(route($this->params['route'] . ".index"));
+    }
+
+    function uploadFile($file, $destinationPath)
+    {
+        //Display File Name
+        $fileName = time() . '_' . $file->getClientOriginalName();
+
+        //Display File Extension
+        $ext = $file->getClientOriginalExtension();
+
+        //Display File Real Path
+        $realPath = $file->getRealPath();
+
+        //Display File Size
+        $size = $file->getSize();
+
+        //Display File Mime Type
+        $mimeType = $file->getMimeType();
+
+        //Move Uploaded File
+        //        $destinationPath = 'uploads/Auction/attachment';
+
+        $path = $file->move($destinationPath, $fileName);
+
+        return $destinationPath . "/" . $fileName;
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $row = $this->find($id);
+        // dd($row->student->history);
+        $parm[$this->params['model']] = $id;
+        $params = $this->params;
+        return view($this->params['dir'] . ".show", compact("row", "parm", "params"));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $row = $this->find($id);
+        $parm[$this->params['model']] = $id;
+        $title = "Edit " . $this->params['singular_title'];
+        $params = $this->params;
+        return view($this->params['dir'] . ".create", compact("row", "title", "params", "parm", "row"));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(SpecialEducationScholarshipRequest $request, $id)
+    {
+        $data = [];
+
+        $this->onHandleOperation($request, $id);
+
+        return redirect()->back()->with("success", "Student Record Updated!");
+        // return redirect()->route($this->params['route'].".index")->with("message","Student Record Updated!");
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Request $request, $id)
+    {
+        $row = $this->find($id);
+
+        $row->delete();
+        if ($request->ajax()) {
+
+            return Response()->json(["status" => "ok", "message" => "Delete Successfully"]);
+        }
+
+        return redirect(route($this->params['dir'] . ".index"));
+    }
+}

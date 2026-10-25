@@ -51,6 +51,8 @@ class DiplomaExport implements FromCollection, WithHeadings
                 $head = "Qualification";
             } elseif ($column == "districts.name as lease_district") {
                 $head = "Lease District";
+            } elseif ($column == "labours.iban") {
+                $head = "IBAN";
             } else {
                 $head = $column;
             }

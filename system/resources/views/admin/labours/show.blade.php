@@ -144,13 +144,13 @@
                             </a>
                             &nbsp;|&nbsp;
                         @endcan
-                        @canany(['read-labours', 'pulmonary-test-report'])
+                        @can('pulmonary-test-report-add')
                             <a href="{{ route('admin.labours.pulmonary-annual-reports.list', ['labour' => $row->l_id]) }}"
                                 class="card-header-action">
                                 <i class="fa fa-notes-medical"></i> Pulmonary annual reports
                             </a>
                             &nbsp;|&nbsp;
-                        @endcanany
+                        @endcan
                         <a href="https://app.cmlw.gkp.pk/labour/print/{{ $row->l_id }}" target="_blank"
                             class="card-header-action"><i class="fa fa-print"></i> Print Form</a>
                     </div>

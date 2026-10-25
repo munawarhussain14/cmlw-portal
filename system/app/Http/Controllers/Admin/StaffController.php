@@ -74,7 +74,10 @@ class StaffController extends AdminController
         $table->office_id = $request->office_id;
 
         $user_id = 0;
-        if($request->user_id){
+        if($request->user_id=="vacant"){
+            $table->user_id = null;
+        }
+        else if($request->user_id){
             $table->user_id = $request->user_id;
             $user_id = $request->user_id;
         }
@@ -242,7 +245,9 @@ class StaffController extends AdminController
         }
 
         $users = User::orderBy("name")->get();
-        $incharges = [];
+        $incharges = [
+            ["value" => "vacant", "text" => "Vacant"]
+            ];
         foreach ($users as $d) {
             array_push($incharges, ["value" => $d->id, "text" => $d->name]);
         }
@@ -274,8 +279,21 @@ class StaffController extends AdminController
     {
         $data = [];
         $validated = $request->validate($this->params['edit_rules']);
-
+        $user_id = $request->user_id;
         $this->onHandleOperation($request, $id);
+        
+        if($user_id!="vacant"){
+            $office = Office::find($request->office_id);
+            $office->incharge = $user_id;
+            $office->save();
+        }
+        
+        if($user_id!="vacant"){
+            $user = User::find($user_id);
+            $user->office_id = $request->office_id;
+            $user->save();
+        }
+        
 
         return redirect(route($this->params['route'] . ".index"));
     }

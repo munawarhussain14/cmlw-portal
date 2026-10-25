@@ -29,7 +29,9 @@
                             ['label' => 'Domicile District', 'value' => 'labours.domicile_district'],
                             ['label' => 'Husband Name', 'value' => 'marriage_grant.husband_name'],
                             ['label' => 'Husband CNIC', 'value' => 'marriage_grant.husband_cnic'],
-                            ['label' => 'Marriage Held On', 'value' => 'marriage_grant.marriage_held_on']
+                            ['label' => 'Marriage Held On', 'value' => 'marriage_grant.marriage_held_on'],
+                            ['label' => 'IBAN', 'value' => 'labours.iban'],
+                            ['label' => 'Bank', 'value' => 'banks.name as bank_name'],
                             // ['label' => 'Lease District', 'value' => 'districts.name as lease_district']
                         ],
                     ])

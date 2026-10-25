@@ -44,4 +44,9 @@ class MarriageGrant extends Model
         $district = District::find($this->labour->domicile_district);
         return $district->assignTo;
     }
+
+    public function doc_verfied()
+    {
+        return $this->hasOne(User::class,"id","doc_verify_by");
+    }
 }

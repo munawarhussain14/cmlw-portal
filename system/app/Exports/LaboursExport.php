@@ -28,7 +28,7 @@ class LaboursExport implements FromCollection, WithHeadings
             $head = "";
             if ($column == "l_id") {
                 $head = "ID";
-            } elseif ($column == "name") {
+            } elseif ($column == "labour.name") {
                 $head = "Name";
             } elseif ($column == "father_name") {
                 $head = "Father Name";
@@ -59,6 +59,12 @@ class LaboursExport implements FromCollection, WithHeadings
                 $head = "Lease Owner";
             } elseif ($column == "mineral_title") {
                 $head = "Mineral Title";
+            } elseif ($column == "labours.iban") {
+                $head = "IBAN";
+            } elseif ($column == "labours.iban") {
+                $head = "IBAN";
+            } elseif ($column == "banks.name as bank_name") {
+                $head = "Bank";
             } elseif ($column == "card_printed") {
                 $head = "Card Printed";
             } else {
@@ -78,8 +84,12 @@ class LaboursExport implements FromCollection, WithHeadings
         $districts = $this->districts;
         $card_printed = $this->card_printed;
         $data = [];
+        if($status=="all"){
+            $status = null;
+        }
         if (count($this->columns) > 0) {
-            $data = Labour::selectRaw(join(",", $this->columns))
+            $data = Labour::leftJoin("banks", "labours.bank_id", "=", "banks.b_id")
+            ->selectRaw(join(",", $this->columns))
                 ->when($districts, function ($query, $districts) {
                     return $query->whereIn("lease_district_id", explode(",", $districts));
                 })
@@ -92,6 +102,7 @@ class LaboursExport implements FromCollection, WithHeadings
                 
                 // ->where("lease_district_id", 26)
                 ->get();
+                
         } else {
             $data = Labour::where("lease_district_id", 26)->get();
         }

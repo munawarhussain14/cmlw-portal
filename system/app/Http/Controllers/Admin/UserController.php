@@ -28,12 +28,14 @@ class UserController extends AdminController
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'office_id' => ['required'],
+            'type'=> 'required'
             // 'role' => 'required',
         ],
         "edit_rules" => [
             'name' => 'required',
             'email' => 'required',
             'office_id' => 'required',
+            'type'=> 'required'
             // 'role' => 'required'
         ],
         "columns" => [
@@ -206,7 +208,7 @@ class UserController extends AdminController
     public function update(Request $request, $id)
     {
         $data = [];
-
+        
         $request->validate($this->params['edit_rules']);
 
         $this->onHandleOperation($request, $id);

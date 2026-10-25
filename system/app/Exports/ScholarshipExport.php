@@ -53,7 +53,11 @@ class ScholarshipExport implements FromCollection, WithHeadings
                 $head = "Class";
             } elseif ($column == "districts.name as lease_district") {
                 $head = "Lease District";
-            }elseif ($column == "scholarship_apply.status") {
+            } elseif ($column == "labours.iban") {
+                $head = "IBAN";
+            } elseif ($column == "banks.name as bank_name") {
+                $head = "Bank";
+            } elseif ($column == "scholarship_apply.status") {
                 $head = "Status";
             } else {
                 $head = $column;
@@ -81,11 +85,11 @@ class ScholarshipExport implements FromCollection, WithHeadings
         $districts = $this->districts;
 
         $scheme = $this->scheme;
-
         $data = Scholarship::leftJoin("children", "scholarship_apply.s_id", "=", "children.id")
             ->leftJoin("labours", "labours.l_id", "=", "children.father_id")
             ->leftJoin("districts", "labours.lease_district_id", "=", "districts.d_id")
             ->leftJoin("districts as domicile_district", "labours.domicile_district", "=", "domicile_district.d_id")
+            ->leftJoin("banks", "labours.bank_id", "=", "banks.b_id")
             ->selectRaw(join(",", $this->columns))
             ->when($status, function ($query, $status) {
                 return $query->where("status", $status);
