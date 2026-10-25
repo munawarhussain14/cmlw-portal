@@ -26,4 +26,9 @@ class DeceasedLabour extends Model
     {
         return $this->hasOne(Labour::class, "l_id", "labour_id")->withoutGlobalScopes();
     }
+
+    public function doc_verfied()
+    {
+        return $this->hasOne(User::class,"id","doc_verify_by");
+    }
 }

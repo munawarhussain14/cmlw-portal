@@ -15,7 +15,7 @@
             </div>
             @php
                 $show = '';
-                if (isset($errors) && ($errors->has('status') || $errors->has('cnic_status') || $errors->has('appointment_letter_status') || $errors->has('schedule_a_status') || $errors->has('enquiry_report_status') || $errors->has('xray_status') || $errors->has('disability_cert_status') || $errors->has('remarks'))) {
+                if (isset($errors) && ($errors->has('status') || $errors->has('cnic_status') || $errors->has('appointment_letter_status') || $errors->has('schedule_a_status') || $errors->has('xray_status') || $errors->has('disability_cert_status') || $errors->has('remarks'))) {
                     $show = 'show';
                 }
             @endphp
@@ -106,23 +106,6 @@
                                 ])
                             </div>
 
-
-                            <div class="col-md-3">
-                                @include('admin.layouts.partials.form.select', [
-                                    'name' => 'enquiry_report_status',
-                                    'label' => 'Inspector Inquary Report',
-                                    'value' => $data->enquiry_report_status,
-                                    'id' => 'enquiry_report_status',
-                                    'required' => true,
-                                    'options' => [
-                                        ['value' => 'approved', 'text' => 'Approved'],
-                                        ['value' => 'missing', 'text' => 'Missing'],
-                                        ['value' => 'not clear', 'text' => 'Not Clear'],
-                                        // ['value' => 'not attested', 'text' => 'Not Attested'],
-                                        ['value' => 'in valid', 'text' => 'In Valid'],
-                                    ],
-                                ])
-                            </div>
 
                             <div class="col-md-3">
                                 @include('admin.layouts.partials.form.select', [

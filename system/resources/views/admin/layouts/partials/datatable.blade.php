@@ -71,6 +71,15 @@
                     urlWithParams.searchParams.delete("districts");
                 }
 
+                if ($("#purpose-filter").length) {
+                    let purpose_filter = $("#purpose-filter").val();
+                    if (purpose_filter != "all") {
+                        urlWithParams.searchParams.append("purpose", purpose_filter);
+                    } else {
+                        urlWithParams.searchParams.delete("purpose");
+                    }
+                }
+
                 table.ajax.url(urlWithParams.href).load();
             }
 

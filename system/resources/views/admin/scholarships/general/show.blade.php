@@ -39,7 +39,9 @@
                 <div class="col-md-9">
                     <div class="card card-primary">
                         <div class="card-header">
-                            <h3 class="card-title">{{ $params['plural_title'] }}</h3>
+                            <h3 class="card-title">{{ $params['plural_title'] }}
+                                @include('admin.scholarships.partials.fatherStatusBadge', ['data' => $row])
+                            </h3>
                             <div class="card-header-actions">
                                 @can('update-scholarships')
                                     <a href="{{ route('admin.scholarships.general.edit', ['general' => $row->id]) }}"

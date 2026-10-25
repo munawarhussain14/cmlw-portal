@@ -13,6 +13,7 @@
                 </div>
                 <div class="col-12">
                     @include('admin.layouts.partials.filter', [
+                        'purposeFilter' => true,
                         'url' => route('admin.scholarships.export', ['scheme' => 'Special']),
                         'columns' => [
                             ['label' => 'ID', 'value' => 'children.id', 'checked' => true],

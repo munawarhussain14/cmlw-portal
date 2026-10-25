@@ -95,12 +95,17 @@ class SpecialEducationScholarshipController extends AdminController
 
             $status = null;
             $districts = null;
+            $purpose = null;
             if ($request->has("status")) {
                 $status = $request->status;
             }
 
             if ($request->has("districts")) {
                 $districts = $request->districts;
+            }
+
+            if ($request->has("purpose")) {
+                $purpose = $request->purpose;
             }
 
             $data = Scholarship::leftJoin("children", "scholarship_apply.s_id", "=", "children.id")
@@ -127,6 +132,9 @@ class SpecialEducationScholarshipController extends AdminController
                 })
                 ->when($districts, function ($query, $districts) {
                     return $query->whereIn("labours.lease_district_id", explode(",", $districts));
+                })
+                ->when($purpose, function ($query, $purpose) {
+                    return $query->where("labours.purpose", $purpose);
                 })
                 ->where("scholarship_apply.fy_year", $fy->year);
             // ->whereRaw('scholarship_apply.category in (?)', $temp)

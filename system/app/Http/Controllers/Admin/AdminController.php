@@ -201,7 +201,6 @@ class AdminController extends Controller
             "cnic_status" => "required",
             "appointment_letter_status" => "required",
             "schedule_a_status" => "required",
-            "enquiry_report_status" => "required",
             "hospital_status" => "required",
             "category" => "required",
         ];
@@ -226,7 +225,6 @@ class AdminController extends Controller
         $row->cnic_status = $request->cnic_status;
         $row->appointment_letter_status = $request->appointment_letter_status;
         $row->schedule_a_status = $request->schedule_a_status;
-        $row->enquiry_report_status = $request->enquiry_report_status;
         $row->hospital_status = $request->hospital_status;
         $row->category = $request->category;
         $row->doc_verify_by = $user_id;

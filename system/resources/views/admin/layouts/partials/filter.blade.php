@@ -41,6 +41,20 @@
                     </select>
                 </div>
             </div>
+            @if (isset($purposeFilter) && $purposeFilter)
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Father Status</label>
+                        <select class="form-control" id="purpose-filter" style="width: 100%;">
+                            <option selected="selected" value="all">All</option>
+                            <option value="labour">Active</option>
+                            <option value="deceased labour">Deceased</option>
+                            <option value="permanent disabled">Permanent Disabled</option>
+                            <option value="occupational desease">Occupational Disease (Pulmonary)</option>
+                        </select>
+                    </div>
+                </div>
+            @endif
             {{-- <div class="col-md-3">
                 <div class="form-group">
                     <label>Work Type</label>
