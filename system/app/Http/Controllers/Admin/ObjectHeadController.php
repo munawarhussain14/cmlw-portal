@@ -33,10 +33,10 @@ class ObjectHeadController extends AdminController
         ],
         "columns" => [
             ["data" => 'id', "name" => 'ID'],
-            ["data" => 'no', "name" => 'Head No'],
+            ["data" => 'no', "name" => 'no'],
             ["data" => 'title', "name" => 'Title'],
-            ["data" => 'leaf', "name" => 'Leaf Head'],
-            ["data" => 'object_head_id', "name" => 'Parent'],
+            ["data" => 'leaf', "name" => 'leaf'],
+            ["data" => 'object_head_id', "name" => 'object_head_id'],
             ["data" => 'action', "name" => 'Action', "orderable" => "false", "searchable" => "false"],
         ]
     ];

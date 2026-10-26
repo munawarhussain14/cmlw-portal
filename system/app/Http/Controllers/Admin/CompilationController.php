@@ -37,8 +37,8 @@ class CompilationController extends AdminController
         ],
         "columns" => [
             ["data" => 'id', "name" => 'ID'],
-            ["data" => 'office_id', "name" => 'Office'],
-            ["data" => 'expenditure_month', "name" => 'Expenditure Month'],
+            ["data" => 'office_id', "name" => 'office_id'],
+            ["data" => 'expenditure_month', "name" => 'expenditure_month'],
             ["data" => 'status', "name" => 'Status'],
             ["data" => 'action', "name" => 'Action', "orderable" => "false", "searchable" => "false"],
         ]

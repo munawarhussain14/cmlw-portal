@@ -44,7 +44,7 @@ class SchemeController extends AdminController
         ],
         "columns" => [
             ["data" => 'id', "name" => 'ID'],
-            ["data" => 'title_eng', "name" => 'Title'],
+            ["data" => 'title_eng', "name" => 'title_eng'],
             ["data" => 'active', "name" => 'Active'],
             ["data" => 'action', "name" => 'Action', "orderable" => "false", "searchable" => "false"],
         ]

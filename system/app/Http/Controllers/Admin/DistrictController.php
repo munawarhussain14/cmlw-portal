@@ -27,9 +27,9 @@ class DistrictController extends AdminController
             "province" => "required"
         ],
         "columns" => [
-            ["data" => 'id', "name" => 'ID'],
+            ["data" => 'id', "name" => 'd_id'],
             ["data" => 'name', "name" => 'Name'],
-            ["data" => 'assign_id', "name" => 'Assign To'],
+            ["data" => 'assign_id', "name" => 'assign_id'],
             ["data" => 'province', "name" => 'Province'],
             ["data" => 'action', "name" => 'Action', "orderable" => "false", "searchable" => "false"],
         ]

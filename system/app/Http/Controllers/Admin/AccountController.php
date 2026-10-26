@@ -34,7 +34,7 @@ class AccountController extends AdminController
         "columns" => [
             ["data" => 'id', "name" => 'ID'],
             ["data" => 'title', "name" => 'Title'],
-            ["data" => 'account_no', "name" => 'Account No'],
+            ["data" => 'account_no', "name" => 'account_no'],
             ["data" => 'action', "name" => 'Action', "orderable" => "false", "searchable" => "false"],
         ]
     ];

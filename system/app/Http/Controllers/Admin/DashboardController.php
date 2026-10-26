@@ -61,11 +61,11 @@ class DashboardController extends Controller
         // dd(Labour::where("lease",1)->count());
         $data["labour"]["total"] = Labour::count();
 
-        $data["scholarship"]["total"] = Scholarship::whereIn("category", ["General", "Other"])
+        $data["scholarship"]["total"] = Scholarship::where("category", "General")
             ->leftJoin("children", "scholarship_apply.s_id", "=", "children.id")
             ->leftJoin("labours", "labours.l_id", "=", "children.father_id")->where("fy_year", $fy->year)->count();
 
-        $data["prof"]["total"] = Scholarship::whereIn("category", ["Medical", "Engineering"])
+        $data["prof"]["total"] = Scholarship::whereIn("category", ["Medical", "Engineering", "Law"])
             ->leftJoin("children", "scholarship_apply.s_id", "=", "children.id")
             ->leftJoin("labours", "labours.l_id", "=", "children.father_id")->where("fy_year", $fy->year)->count();
 

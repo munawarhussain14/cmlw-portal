@@ -33,9 +33,9 @@ class StaffController extends AdminController
         ],
         "columns" => [
             ["data" => 'id', "name" => 'ID'],
-            ["data" => 'user_id', "name" => 'User'],
-            ["data" => 'post_id', "name" => 'Post'],
-            ["data" => 'office_id', "name" => 'Office'],
+            ["data" => 'user_id', "name" => 'user_id'],
+            ["data" => 'post_id', "name" => 'post_id'],
+            ["data" => 'office_id', "name" => 'office_id'],
             ["data" => 'action', "name" => 'Action', "orderable" => "false", "searchable" => "false"],
         ]
     ];

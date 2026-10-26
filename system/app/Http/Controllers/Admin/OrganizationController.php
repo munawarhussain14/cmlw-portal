@@ -38,7 +38,7 @@ class OrganizationController extends AdminController
             ["data" => 'id', "name" => 'ID'],
             ["data" => 'name', "name" => 'Name'],
             ["data" => 'jurisdiction', "name" => 'Jurisdiction'],
-            ["data" => 'parent', "name" => 'Head Department'],
+            ["data" => 'parent', "name" => 'parent'],
             ["data" => 'action', "name" => 'Action', "orderable" => "false", "searchable" => "false"],
         ]
     ];

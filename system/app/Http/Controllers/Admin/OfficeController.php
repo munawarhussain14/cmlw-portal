@@ -44,7 +44,7 @@ class OfficeController extends AdminController
             ["data" => 'id', "name" => 'ID'],
             ["data" => 'name', "name" => 'Name'],
             ["data" => 'ddo', "name" => 'DDO'],
-            ["data" => 'org_id', "name" => 'Organization'],
+            ["data" => 'org_id', "name" => 'org_id'],
             ["data" => 'district', "name" => 'District'],
             ["data" => 'address', "name" => 'Address'],
             ["data" => 'phone', "name" => 'Phone'],

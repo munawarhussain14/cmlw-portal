@@ -36,7 +36,7 @@ class BudgetController extends AdminController
         ],
         "columns" => [
             ["data" => 'id', "name" => 'ID'],
-            ["data" => 'name', "name" => 'Office'],
+            ["data" => 'name', "name" => 'name'],
             ["data" => 'ddo', "name" => 'DDO'],
             // ["data" => 'fy_year', "name" => 'Fy Year'],
             ["data" => 'action', "name" => 'Action', "orderable" => "false", "searchable" => "false"],

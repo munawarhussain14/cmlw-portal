@@ -35,9 +35,9 @@ class PostController extends AdminController
         "columns" => [
             ["data" => 'id', "name" => 'ID'],
             ["data" => 'designation', "name" => 'Designation'],
-            ["data" => 'short_designation', "name" => 'Short Designation'],
+            ["data" => 'short_designation', "name" => 'short_designation'],
             ["data" => 'grade', "name" => 'Grade'],
-            ["data" => 'org_id', "name" => 'Organization'],
+            ["data" => 'org_id', "name" => 'org_id'],
             ["data" => 'action', "name" => 'Action', "orderable" => "false", "searchable" => "false"],
         ]
     ];

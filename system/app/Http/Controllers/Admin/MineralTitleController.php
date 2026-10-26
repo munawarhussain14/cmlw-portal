@@ -42,7 +42,7 @@ class MineralTitleController extends AdminController
         "columns"=> [
             ["data" => 'id', "name" => 'ID'],
             ["data" => 'code', "name" => 'Code'],
-            ["data" => 'district', "name" => 'Districts'],
+            ["data" => 'district', "name" => 'district'],
             ["data"=> 'action', "name"=> 'Action', "orderable"=> "false", "searchable"=> "false"],
         ]
     ];
